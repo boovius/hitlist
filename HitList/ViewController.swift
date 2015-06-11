@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
-    var names = [String]()
+    var people = [NSManagedObject]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,13 +20,33 @@ class ViewController: UIViewController, UITableViewDataSource {
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext
+        
+        let fetchRequest = NSFetchRequest(entityName: "Person")
+        
+        var error: NSError?
+        
+        let fetchedResults = managedContext!.executeFetchRequest(fetchRequest, error: (&error)) as? [NSManagedObject]
+        
+        if let results = fetchedResults {
+            people = results
+        } else {
+            println("Could not fetch results from core data \(error), \(error!.userInfo)")
+        }
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return names.count
+        return people.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as! UITableViewCell
-        cell.textLabel!.text = names[indexPath.row]
+        cell.textLabel!.text = people[indexPath.row].valueForKey("name") as? String
         
         return cell
     }
@@ -36,7 +57,7 @@ class ViewController: UIViewController, UITableViewDataSource {
         let saveAction = UIAlertAction(title: "Save", style: UIAlertActionStyle.Default, handler: {(action: UIAlertAction!) -> Void in
             
             let textField = alert.textFields![0] as! UITextField
-            self.names.append(textField.text)
+            self.saveName(textField.text)
             self.tableView.reloadData()
         })
         
@@ -50,12 +71,24 @@ class ViewController: UIViewController, UITableViewDataSource {
         presentViewController(alert, animated: true, completion: nil)
         
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func saveName(name: NSString) {
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext!
+        
+        let entity = NSEntityDescription.entityForName("Person", inManagedObjectContext: managedContext)
+        
+        let person = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        
+        person.setValue(name, forKey: "name")
+        
+        var error: NSError?
+        if !managedContext.save(&error) {
+            println("Could not save \(error), \(error?.userInfo)")
+        }
+        
+        people.append(person)
     }
-
-
 }
 
