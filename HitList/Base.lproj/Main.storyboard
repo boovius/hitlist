@@ -19,23 +19,82 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="lCx-RE-hwb">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="0.0" width="400" height="800"/>
-                                </variation>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="XIx-Qm-ZWX" customClass="ActivityCell" customModule="HitList" customModuleProvider="target">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XIx-Qm-ZWX" id="vs5-Tb-zJu">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YTq-IY-PXc">
+                                                    <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                                        <rect key="frame" x="26" y="11" width="42" height="21"/>
+                                                    </variation>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tVp-dR-OoF">
+                                                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                                    <state key="normal" title="Do">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                                        <rect key="frame" x="302" y="11" width="30" height="30"/>
+                                                    </variation>
+                                                </button>
+                                            </subviews>
+                                            <variation key="default">
+                                                <mask key="subviews">
+                                                    <exclude reference="YTq-IY-PXc"/>
+                                                    <exclude reference="tVp-dR-OoF"/>
+                                                </mask>
+                                            </variation>
+                                            <variation key="heightClass=regular-widthClass=compact">
+                                                <mask key="subviews">
+                                                    <include reference="YTq-IY-PXc"/>
+                                                    <include reference="tVp-dR-OoF"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="activityTitle" destination="YTq-IY-PXc" id="mU1-bT-2UD"/>
+                                            <outlet property="doButton" destination="tVp-dR-OoF" id="QH9-Fc-T1S"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="vXZ-lx-hvc" id="70p-hu-hRI"/>
                                 </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="lCx-RE-hwb" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="LvZ-Ao-Y7a"/>
+                            <constraint firstAttribute="trailing" secondItem="lCx-RE-hwb" secondAttribute="trailing" id="Z9a-t3-kMu"/>
+                            <constraint firstItem="lCx-RE-hwb" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="hGs-fg-xRJ"/>
+                            <constraint firstItem="lCx-RE-hwb" firstAttribute="bottom" secondItem="2fi-mo-0CV" secondAttribute="top" id="nBB-OZ-K6f"/>
+                        </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="lCx-RE-hwb"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="LvZ-Ao-Y7a"/>
+                                <exclude reference="Z9a-t3-kMu"/>
+                                <exclude reference="hGs-fg-xRJ"/>
+                                <exclude reference="nBB-OZ-K6f"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="lCx-RE-hwb"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="LvZ-Ao-Y7a"/>
+                                <include reference="Z9a-t3-kMu"/>
+                                <include reference="hGs-fg-xRJ"/>
+                                <include reference="nBB-OZ-K6f"/>
                             </mask>
                         </variation>
                     </view>

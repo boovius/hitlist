@@ -47,6 +47,7 @@ class ViewController: UIViewController, UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as! UITableViewCell
         cell.textLabel!.text = people[indexPath.row].valueForKey("name") as? String
+        UIButton
         
         return cell
     }
