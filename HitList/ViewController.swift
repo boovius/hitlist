@@ -45,11 +45,18 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as! ActivityCell
         cell.textLabel!.text = people[indexPath.row].valueForKey("name") as? String
-        UIButton
+        
+        cell.doButton.tag = indexPath.row
+        
+        cell.doButton.addTarget(self, action: "doActivity", forControlEvents: .TouchUpInside)
         
         return cell
+    }
+    
+    @IBAction func doActivity(sender: UIButton) {
+
     }
 
     @IBAction func addName(sender: AnyObject) {
