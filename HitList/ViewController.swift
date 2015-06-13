@@ -12,12 +12,11 @@ import CoreData
 class ViewController: UIViewController, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
-    var people = [NSManagedObject]()
+    var activities = [NSManagedObject]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "\"The List\""
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -27,28 +26,29 @@ class ViewController: UIViewController, UITableViewDataSource {
         
         let managedContext = appDelegate.managedObjectContext
         
-        let fetchRequest = NSFetchRequest(entityName: "Person")
+        let fetchRequest = NSFetchRequest(entityName: "Activity")
         
         var error: NSError?
         
         let fetchedResults = managedContext!.executeFetchRequest(fetchRequest, error: (&error)) as? [NSManagedObject]
         
         if let results = fetchedResults {
-            people = results
+            activities = results
         } else {
             println("Could not fetch results from core data \(error), \(error!.userInfo)")
         }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return people.count
+        return activities.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("activityCell", forIndexPath: indexPath) as! ActivityCell
 
-        cell.activityTitle.text = people[indexPath.row].valueForKey("name") as? String
+        cell.activityTitle.text = activities[indexPath.row].valueForKey("activity") as? String
+        cell.count.text = "2"
         
         cell.doButton.tag = indexPath.row
         
@@ -58,7 +58,6 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     @IBAction func doActivity(sender: UIButton) {
-
     }
 
     @IBAction func addName(sender: AnyObject) {
@@ -87,18 +86,18 @@ class ViewController: UIViewController, UITableViewDataSource {
         
         let managedContext = appDelegate.managedObjectContext!
         
-        let entity = NSEntityDescription.entityForName("Person", inManagedObjectContext: managedContext)
+        let entity = NSEntityDescription.entityForName("Activity", inManagedObjectContext: managedContext)
         
-        let person = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        let activity = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
         
-        person.setValue(name, forKey: "name")
+        activity.setValue(name, forKey: "activity")
         
         var error: NSError?
         if !managedContext.save(&error) {
             println("Could not save \(error), \(error?.userInfo)")
         }
         
-        people.append(person)
+        activities.append(activity)
     }
 }
 
