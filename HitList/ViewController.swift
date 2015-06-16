@@ -58,6 +58,24 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     @IBAction func doActivity(sender: UIButton) {
+        let activity = activities[sender.tag]
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext!
+        if let count = activity.valueForKey("count") as? Int {
+            let countPlusOne = count + 1
+            activity.setValue(countPlusOne, forKey: "count")
+            
+            var error: NSError?
+            if !managedContext.save(&error) {
+                println("Could not save \(error), \(error?.userInfo)")
+            } else {
+                self.tableView.reloadData()
+            }
+        } else {
+            println("Could not fetch activity's count")
+        }
     }
 
     @IBAction func addName(sender: AnyObject) {
