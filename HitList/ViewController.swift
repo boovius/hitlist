@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 
 class ViewController: UIViewController, UITableViewDataSource {
+    let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext!
     
     @IBOutlet weak var tableView: UITableView!
     var activities = [NSManagedObject]()
@@ -22,15 +23,11 @@ class ViewController: UIViewController, UITableViewDataSource {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        
-        let managedContext = appDelegate.managedObjectContext
-        
         let fetchRequest = NSFetchRequest(entityName: "Activity")
         
         var error: NSError?
         
-        let fetchedResults = managedContext!.executeFetchRequest(fetchRequest, error: (&error)) as? [NSManagedObject]
+        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: (&error)) as? [NSManagedObject]
         
         if let results = fetchedResults {
             activities = results
@@ -60,9 +57,6 @@ class ViewController: UIViewController, UITableViewDataSource {
     @IBAction func doActivity(sender: UIButton) {
         let activity = activities[sender.tag]
         
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        
-        let managedContext = appDelegate.managedObjectContext!
         if let count = activity.valueForKey("count") as? Int {
             let countPlusOne = count + 1
             activity.setValue(countPlusOne, forKey: "count")
@@ -100,9 +94,6 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     func saveName(name: NSString) {
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        
-        let managedContext = appDelegate.managedObjectContext!
         
         let entity = NSEntityDescription.entityForName("Activity", inManagedObjectContext: managedContext)
         
