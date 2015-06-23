@@ -45,30 +45,31 @@ class ViewController: UIViewController, UITableViewDataSource {
         let cell = tableView.dequeueReusableCellWithIdentifier("activityCell", forIndexPath: indexPath) as! ActivityCell
 
         cell.activityTitle.text = activities[indexPath.row].valueForKey("activity") as? String
-        cell.count.text = "2"
+        cell.count.text = "0"
         
         cell.doButton.tag = indexPath.row
         
-        cell.doButton.addTarget(self, action: "doActivity", forControlEvents: .TouchUpInside)
+        cell.doButton.addTarget(self, action: "doActivity:", forControlEvents: .TouchUpInside)
         return cell
         
     }
     
     @IBAction func doActivity(sender: UIButton) {
-        let activity = activities[sender.tag]
+        let activity = activities[sender.tag] as! Activity
         
-        if let count = activity.valueForKey("count") as? Int {
-            let countPlusOne = count + 1
-            activity.setValue(countPlusOne, forKey: "count")
-            
-            var error: NSError?
-            if !managedContext.save(&error) {
-                println("Could not save \(error), \(error?.userInfo)")
-            } else {
-                self.tableView.reloadData()
-            }
+        var num = activity.count as IntegerLiteralType
+        num = num + 1
+        activity.count = num as NSNumber
+        
+        let indexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
+        var cell = self.tableView(self.tableView, cellForRowAtIndexPath: indexPath) as! ActivityCell
+        cell.count.text = "\(activity.count)"
+        
+        var error: NSError?
+        if !managedContext.save(&error) {
+            println("Could not save \(error), \(error?.userInfo)")
         } else {
-            println("Could not fetch activity's count")
+            self.tableView.reloadData()
         }
     }
 
