@@ -44,8 +44,11 @@ class ViewController: UIViewController, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("activityCell", forIndexPath: indexPath) as! ActivityCell
 
-        cell.activityTitle.text = activities[indexPath.row].valueForKey("activity") as? String
-        cell.count.text = "0"
+        let activity = activities[indexPath.row] as! Activity
+
+        cell.activityTitle.text = activity.activity
+
+        cell.count.text = "\(activity.count)"
         
         cell.doButton.tag = indexPath.row
         
@@ -61,10 +64,6 @@ class ViewController: UIViewController, UITableViewDataSource {
         num = num + 1
         activity.count = num as NSNumber
         
-        let indexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
-        var cell = self.tableView(self.tableView, cellForRowAtIndexPath: indexPath) as! ActivityCell
-        cell.count.text = "\(activity.count)"
-        
         var error: NSError?
         if !managedContext.save(&error) {
             println("Could not save \(error), \(error?.userInfo)")
@@ -74,12 +73,19 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
 
     @IBAction func addName(sender: AnyObject) {
-        var alert = UIAlertController(title: "New name", message: "Add a new name", preferredStyle: .Alert)
+        var alert = UIAlertController(
+            title: "New activity",
+            message: "Add a new activity",
+            preferredStyle: .Alert
+        )
         
-        let saveAction = UIAlertAction(title: "Save", style: UIAlertActionStyle.Default, handler: {(action: UIAlertAction!) -> Void in
+        let saveAction = UIAlertAction(
+            title: "Save",
+            style: UIAlertActionStyle.Default,
+            handler: {(action: UIAlertAction!) -> Void in
             
             let textField = alert.textFields![0] as! UITextField
-            self.saveName(textField.text)
+            self.saveActivity(textField.text)
             self.tableView.reloadData()
         })
         
@@ -91,10 +97,9 @@ class ViewController: UIViewController, UITableViewDataSource {
         alert.addAction(cancelAction)
         
         presentViewController(alert, animated: true, completion: nil)
-        
     }
     
-    func saveName(name: NSString) {
+    func saveActivity(name: NSString) {
         
         let entity = NSEntityDescription.entityForName("Activity", inManagedObjectContext: managedContext)
         
