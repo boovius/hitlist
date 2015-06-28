@@ -11,12 +11,13 @@ import UIKit
 class ActivityCell: UITableViewCell {
 
     @IBOutlet weak var count: UILabel!
-    @IBOutlet weak var activityTitle: UILabel!
+    @IBOutlet weak var activityTitle: UITextView!
     @IBOutlet weak var doButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.backgroundColor = UIColor.orangeColor()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
