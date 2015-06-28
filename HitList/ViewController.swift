@@ -46,7 +46,7 @@ class ViewController: UIViewController, UITableViewDataSource {
 
         let activity = activities[indexPath.row] as! Activity
 
-        cell.activityTitle.text = activity.activity
+        cell.activityTitle.text = activity.activity.uppercaseString
 
         cell.count.text = "\(activity.count)"
         
