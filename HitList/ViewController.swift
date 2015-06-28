@@ -17,7 +17,7 @@ class ViewController: UIViewController, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "\"The List\""
+        title = "Get Shit Done"
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -113,6 +113,14 @@ class ViewController: UIViewController, UITableViewDataSource {
         }
         
         activities.append(activity)
+    }
+
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        let activity = activities[indexPath.row] as! Activity
+        managedContext.deleteObject(activity)
+        activities.removeAtIndex(indexPath.row)
+        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+        self.tableView.reloadData()
     }
 }
 
