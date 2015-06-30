@@ -12,6 +12,7 @@ import CoreData
 class ViewController: UIViewController, UITableViewDataSource {
     let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext!
     
+    @IBOutlet weak var doButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     var activities = [NSManagedObject]()
     
@@ -50,9 +51,6 @@ class ViewController: UIViewController, UITableViewDataSource {
 
         cell.count.text = "\(activity.count)"
         
-        cell.doButton.tag = indexPath.row
-        
-        cell.doButton.addTarget(self, action: "doActivity:", forControlEvents: .TouchUpInside)
         return cell
         
     }

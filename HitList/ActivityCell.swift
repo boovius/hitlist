@@ -12,7 +12,6 @@ class ActivityCell: UITableViewCell {
 
     @IBOutlet weak var count: UILabel!
     @IBOutlet weak var activityTitle: UILabel!
-    @IBOutlet weak var doButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
