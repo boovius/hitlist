@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>2AC28831-C0BB-4022-9EC0-983A0174BC72</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>HitList</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>1153BC4C54977BB1C4486F310CFE71B7749D5387</key>
 		<string>github.com:boovius/hitlist.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>HitList.xcodeproj/project.xcworkspace</string>
+	<string>HitList.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>1153BC4C54977BB1C4486F310CFE71B7749D5387</key>
@@ -34,7 +34,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>1153BC4C54977BB1C4486F310CFE71B7749D5387</string>
 			<key>IDESourceControlWCCName</key>
-			<string>HitList</string>
+			<string>hitlist</string>
 		</dict>
 	</array>
 </dict>

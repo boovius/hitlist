@@ -10,54 +10,81 @@ import UIKit
 import CoreData
 
 class ViewController: UIViewController, UITableViewDataSource {
+    let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext!
     
+    @IBOutlet weak var doButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
-    var people = [NSManagedObject]()
+    var activities = [NSManagedObject]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "\"The List\""
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        title = "Get Shit Done"
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        
-        let managedContext = appDelegate.managedObjectContext
-        
-        let fetchRequest = NSFetchRequest(entityName: "Person")
+        let fetchRequest = NSFetchRequest(entityName: "Activity")
         
         var error: NSError?
         
-        let fetchedResults = managedContext!.executeFetchRequest(fetchRequest, error: (&error)) as? [NSManagedObject]
+        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: (&error)) as? [NSManagedObject]
         
         if let results = fetchedResults {
-            people = results
+            activities = results
         } else {
             println("Could not fetch results from core data \(error), \(error!.userInfo)")
         }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return people.count
+        return activities.count
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("activityCell", forIndexPath: indexPath) as! ActivityCell
+
+        let activity = activities[indexPath.row] as! Activity
+
+        cell.activityTitle.text = activity.activity.uppercaseString
+
+        cell.count.tag = indexPath.row
+        cell.count.setTitle("\(activity.count)", forState: UIControlState.Normal)
+        cell.count.addTarget(self, action: "doActivity:", forControlEvents: UIControlEvents.TouchUpInside)
+
+        return cell
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as! UITableViewCell
-        cell.textLabel!.text = people[indexPath.row].valueForKey("name") as? String
+    @IBAction func doActivity(sender: UIButton) {
+        let activity = activities[sender.tag] as! Activity
         
-        return cell
+        var num = activity.count as IntegerLiteralType
+        num = num + 1
+        activity.count = num as NSNumber
+        
+        var error: NSError?
+        if !managedContext.save(&error) {
+            println("Could not save \(error), \(error?.userInfo)")
+        } else {
+            self.tableView.reloadData()
+        }
     }
 
     @IBAction func addName(sender: AnyObject) {
-        var alert = UIAlertController(title: "New name", message: "Add a new name", preferredStyle: .Alert)
+        var alert = UIAlertController(
+            title: "New activity",
+            message: "Add a new activity",
+            preferredStyle: .Alert
+        )
         
-        let saveAction = UIAlertAction(title: "Save", style: UIAlertActionStyle.Default, handler: {(action: UIAlertAction!) -> Void in
+        let saveAction = UIAlertAction(
+            title: "Save",
+            style: UIAlertActionStyle.Default,
+            handler: {(action: UIAlertAction!) -> Void in
             
             let textField = alert.textFields![0] as! UITextField
-            self.saveName(textField.text)
+            self.saveActivity(textField.text)
             self.tableView.reloadData()
         })
         
@@ -69,26 +96,30 @@ class ViewController: UIViewController, UITableViewDataSource {
         alert.addAction(cancelAction)
         
         presentViewController(alert, animated: true, completion: nil)
-        
     }
     
-    func saveName(name: NSString) {
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    func saveActivity(name: NSString) {
         
-        let managedContext = appDelegate.managedObjectContext!
+        let entity = NSEntityDescription.entityForName("Activity", inManagedObjectContext: managedContext)
         
-        let entity = NSEntityDescription.entityForName("Person", inManagedObjectContext: managedContext)
+        let activity = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
         
-        let person = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
-        
-        person.setValue(name, forKey: "name")
+        activity.setValue(name, forKey: "activity")
         
         var error: NSError?
         if !managedContext.save(&error) {
             println("Could not save \(error), \(error?.userInfo)")
         }
         
-        people.append(person)
+        activities.append(activity)
+    }
+
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        let activity = activities[indexPath.row] as! Activity
+        managedContext.deleteObject(activity)
+        activities.removeAtIndex(indexPath.row)
+        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+        self.tableView.reloadData()
     }
 }
 
