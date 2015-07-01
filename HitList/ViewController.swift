@@ -57,7 +57,6 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     @IBAction func doActivity(sender: UIButton) {
-        
         let activity = activities[sender.tag] as! Activity
         
         var num = activity.count as IntegerLiteralType
