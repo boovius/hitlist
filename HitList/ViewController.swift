@@ -49,18 +49,15 @@ class ViewController: UIViewController, UITableViewDataSource {
 
         cell.activityTitle.text = activity.activity.uppercaseString
 
+        cell.count.tag = indexPath.row
         cell.count.setTitle("\(activity.count)", forState: UIControlState.Normal)
-        cell.count.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("touchedLabel:")))
+        cell.count.addTarget(self, action: "doActivity:", forControlEvents: UIControlEvents.TouchUpInside)
 
         return cell
-        
-    }
-    
-    func touchedLabel(gesture: UITapGestureRecognizer) {
-        
     }
     
     @IBAction func doActivity(sender: UIButton) {
+        
         let activity = activities[sender.tag] as! Activity
         
         var num = activity.count as IntegerLiteralType
