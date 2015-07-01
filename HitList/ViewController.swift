@@ -99,7 +99,6 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     func saveActivity(name: NSString) {
-        
         let entity = NSEntityDescription.entityForName("Activity", inManagedObjectContext: managedContext)
         
         let activity = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
