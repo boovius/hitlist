@@ -10,7 +10,7 @@ import UIKit
 
 class ActivityCell: UITableViewCell {
 
-    @IBOutlet weak var count: UILabel!
+    @IBOutlet weak var count: UIButton!
     @IBOutlet weak var activityTitle: UILabel!
     
     override func awakeFromNib() {
