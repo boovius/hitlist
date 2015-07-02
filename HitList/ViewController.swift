@@ -99,7 +99,6 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     func saveActivity(name: NSString) {
-        
         let entity = NSEntityDescription.entityForName("Activity", inManagedObjectContext: managedContext)
         
         let activity = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
@@ -116,10 +115,17 @@ class ViewController: UIViewController, UITableViewDataSource {
 
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         let activity = activities[indexPath.row] as! Activity
+
         managedContext.deleteObject(activity)
-        activities.removeAtIndex(indexPath.row)
-        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
-        self.tableView.reloadData()
+        var error: NSError?
+        if !managedContext.save(&error) {
+            println("Could not delete \(activity), \(error), \(error?.userInfo)")
+        } else {
+            activities.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+
+            self.tableView.reloadData()
+        }
     }
 }
 
