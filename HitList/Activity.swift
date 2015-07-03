@@ -2,7 +2,7 @@
 //  Activity.swift
 //  HitList
 //
-//  Created by Joshua Book on 6/23/15.
+//  Created by Joshua Book on 7/3/15.
 //  Copyright (c) 2015 Boovius Projects. All rights reserved.
 //
 
@@ -13,5 +13,18 @@ class Activity: NSManagedObject {
 
     @NSManaged var activity: String
     @NSManaged var count: NSNumber
-
+    @NSManaged var doings: NSSet
+    
+    func weekly() -> Int {
+        var weeklies = 0
+        let allDoings = doings.allObjects
+        for var index = 0; index < allDoings.count; ++index {
+            let doing = allDoings[index] as! Doing
+            println(doing.createdAt)
+            if DateProcessor.inThisWeek(doing.createdAt) {
+                weeklies += 1
+            }
+        }
+        return weeklies
+    }
 }
