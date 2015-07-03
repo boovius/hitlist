@@ -10,6 +10,39 @@ import Foundation
 
 class DateProcessor {
     
+    class func inThisWeek(date: NSDate) -> Bool {
+        if let beginning = beginningOfWeek() {
+            return firstDateGreaterThanSecond(date, second: beginning)
+        } else {
+            return false
+        }
+    }
+    
+    class func daysBetween(incomingFirst: NSDate, incomingSecond: NSDate) -> Int? {
+        var firstDate: NSDate?
+        firstDate = incomingFirst
+        var secondDate: NSDate?
+        secondDate = incomingSecond
+
+        if  (firstDate != nil) {
+            if  (secondDate != nil) {
+                var calendar: NSCalendar = NSCalendar.currentCalendar()
+                
+                // Replace the hour (time) of both dates with 00:00
+                let date1 = calendar.startOfDayForDate(firstDate!)
+                let date2 = calendar.startOfDayForDate(secondDate!)
+                
+                let flags = NSCalendarUnit.DayCalendarUnit
+                let components = calendar.components(flags, fromDate: date1, toDate: date2, options: nil)
+                
+                return components.day
+            }
+        }
+        return nil
+    }
+    
+    private
+    
     class func beginningOfWeek() -> NSDate? {
         let cal = NSCalendar.currentCalendar()
         
@@ -26,13 +59,5 @@ class DateProcessor {
     
     class func firstDateGreaterThanSecond(first: NSDate, second: NSDate) -> Bool {
         return first.compare(second) == NSComparisonResult.OrderedDescending
-    }
-    
-    class func inThisWeek(date: NSDate) -> Bool {
-        if let beginning = beginningOfWeek() {
-            return firstDateGreaterThanSecond(date, second: beginning)
-        } else {
-            return false
-        }
     }
 }
