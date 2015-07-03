@@ -112,16 +112,16 @@
                                                     <exclude reference="RgH-jw-1OY"/>
                                                 </mask>
                                                 <mask key="constraints">
-                                                    <exclude reference="qU2-5k-0mh"/>
                                                     <exclude reference="0bX-ot-cLL"/>
+                                                    <exclude reference="3mQ-5x-inr"/>
+                                                    <exclude reference="GSD-Q3-zqG"/>
+                                                    <exclude reference="kKW-KS-14X"/>
+                                                    <exclude reference="qU2-5k-0mh"/>
                                                     <exclude reference="Bfq-3g-XIG"/>
                                                     <exclude reference="F1g-XQ-zX5"/>
                                                     <exclude reference="P4D-3H-Qfq"/>
                                                     <exclude reference="jgG-hy-dn9"/>
                                                     <exclude reference="y0A-fH-Hp2"/>
-                                                    <exclude reference="3mQ-5x-inr"/>
-                                                    <exclude reference="GSD-Q3-zqG"/>
-                                                    <exclude reference="kKW-KS-14X"/>
                                                 </mask>
                                             </variation>
                                             <variation key="heightClass=regular-widthClass=compact">
@@ -132,16 +132,16 @@
                                                     <include reference="RgH-jw-1OY"/>
                                                 </mask>
                                                 <mask key="constraints">
-                                                    <include reference="qU2-5k-0mh"/>
                                                     <include reference="0bX-ot-cLL"/>
+                                                    <include reference="3mQ-5x-inr"/>
+                                                    <include reference="GSD-Q3-zqG"/>
+                                                    <include reference="kKW-KS-14X"/>
+                                                    <include reference="qU2-5k-0mh"/>
                                                     <include reference="Bfq-3g-XIG"/>
                                                     <include reference="F1g-XQ-zX5"/>
                                                     <include reference="P4D-3H-Qfq"/>
                                                     <include reference="jgG-hy-dn9"/>
                                                     <include reference="y0A-fH-Hp2"/>
-                                                    <include reference="3mQ-5x-inr"/>
-                                                    <include reference="GSD-Q3-zqG"/>
-                                                    <include reference="kKW-KS-14X"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
