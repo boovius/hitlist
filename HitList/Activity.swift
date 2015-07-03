@@ -20,7 +20,6 @@ class Activity: NSManagedObject {
         let allDoings = doings.allObjects
         for var index = 0; index < allDoings.count; ++index {
             let doing = allDoings[index] as! Doing
-            println(doing.createdAt)
             if DateProcessor.inThisWeek(doing.createdAt) {
                 weeklies += 1
             }
