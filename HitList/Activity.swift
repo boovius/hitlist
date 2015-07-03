@@ -12,7 +12,7 @@ import CoreData
 class Activity: NSManagedObject {
 
     @NSManaged var activity: String
-    @NSManaged var count: NSNumber
+    @NSManaged var doneLastAt: NSDate
     @NSManaged var doings: NSSet
     
     func weekly() -> Int {

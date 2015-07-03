@@ -48,14 +48,32 @@ class ViewController: UIViewController, UITableViewDataSource {
         let activity = activities[indexPath.row] as! Activity
 
         cell.activityTitle.text = activity.activity.uppercaseString
-        
-        println(activity.weekly())
-
+        cell.doneLastAt.text = doneLastAt(activity)
         cell.count.tag = indexPath.row
         cell.count.setTitle("\(activity.weekly())", forState: UIControlState.Normal)
         cell.count.addTarget(self, action: "doActivity:", forControlEvents: UIControlEvents.TouchUpInside)
 
         return cell
+    }
+    
+    func doneLastAt(activity: Activity) -> String {
+        if let daysAgo = DateProcessor.daysBetween(activity.doneLastAt, incomingSecond: NSDate()) {
+            var expression: String
+            switch daysAgo {
+            case 0:
+                expression = "today!"
+            case 1:
+                expression = "1 day ago"
+            case daysAgo where daysAgo > 1:
+                expression = "\(daysAgo) days ago"
+            default:
+                expression = "not yet done"
+            }
+            return expression
+        } else {
+            return "not yet done"
+        }
+
     }
     
     @IBAction func doActivity(sender: UIButton) {
@@ -66,6 +84,7 @@ class ViewController: UIViewController, UITableViewDataSource {
         let doing = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext) as! Doing
         doing.activity = activity
         doing.createdAt = NSDate()
+        activity.doneLastAt = doing.createdAt
         
         var error: NSError?
         if !managedContext.save(&error) {
