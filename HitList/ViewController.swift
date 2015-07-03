@@ -48,9 +48,11 @@ class ViewController: UIViewController, UITableViewDataSource {
         let activity = activities[indexPath.row] as! Activity
 
         cell.activityTitle.text = activity.activity.uppercaseString
+        
+        println(activity.weekly())
 
         cell.count.tag = indexPath.row
-        cell.count.setTitle("\(activity.count)", forState: UIControlState.Normal)
+        cell.count.setTitle("\(activity.weekly())", forState: UIControlState.Normal)
         cell.count.addTarget(self, action: "doActivity:", forControlEvents: UIControlEvents.TouchUpInside)
 
         return cell
@@ -59,9 +61,11 @@ class ViewController: UIViewController, UITableViewDataSource {
     @IBAction func doActivity(sender: UIButton) {
         let activity = activities[sender.tag] as! Activity
         
-        var num = activity.count as IntegerLiteralType
-        num = num + 1
-        activity.count = num as NSNumber
+        let entity = NSEntityDescription.entityForName("Doing", inManagedObjectContext: managedContext)
+        
+        let doing = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext) as! Doing
+        doing.activity = activity
+        doing.createdAt = NSDate()
         
         var error: NSError?
         if !managedContext.save(&error) {
