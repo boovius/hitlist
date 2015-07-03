@@ -48,9 +48,7 @@ class ViewController: UIViewController, UITableViewDataSource {
         let activity = activities[indexPath.row] as! Activity
 
         cell.activityTitle.text = activity.activity.uppercaseString
-        
-        println(activity.weekly())
-
+        cell.doneLastAt.text = "\(activity.doneLastAt)"
         cell.count.tag = indexPath.row
         cell.count.setTitle("\(activity.weekly())", forState: UIControlState.Normal)
         cell.count.addTarget(self, action: "doActivity:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -66,6 +64,7 @@ class ViewController: UIViewController, UITableViewDataSource {
         let doing = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext) as! Doing
         doing.activity = activity
         doing.createdAt = NSDate()
+        activity.doneLastAt = doing.createdAt
         
         var error: NSError?
         if !managedContext.save(&error) {

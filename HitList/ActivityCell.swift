@@ -11,6 +11,7 @@ import UIKit
 class ActivityCell: UITableViewCell {
 
     @IBOutlet weak var count: UIButton!
+    @IBOutlet weak var doneLastAt: UILabel!
     @IBOutlet weak var activityTitle: UILabel!
     
     override func awakeFromNib() {
